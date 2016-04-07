@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Facebook Login JavaScript Example</title>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="//connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+<script>
+  function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+      FB.api('/me','GET',{"fields":"id,name,email","access_token":$(response.authResponse.accessToken).val()},
+        function(responseMe) {
+            window.location = 'auth.php?action=fb&fb_id='+response.authResponse.userID+'&fb_token='+response.authResponse.accessToken+'&email='+responseMe.email;
+        }
+      );
+    }
+    else{
+      window.location = 'https://www.facebook.com/dialog/oauth?%20client_id=1653151954958147&redirect_uri=http://www1.ee.nthu.edu.tw/booking/login/fbconn.html&scope=public_profile,email';
+    }
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1653151954958147',
+    cookie     : true, 
+    xfbml      : true,
+    version    : 'v2.5'
+  });
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    //js.src = "/booking/js/fbsdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+登入中...
+（若有使用 Disconnect 等擴充元件，請關閉元件避免無法連線。）
+</body>
+</html>

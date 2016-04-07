@@ -1,0 +1,9 @@
+.book{
+	height: 450px !important;
+}
+
+@media print{
+	.printDisable {
+		display: none !important;
+	}
+}
